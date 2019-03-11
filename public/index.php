@@ -6,4 +6,3 @@
  * Time: 12:07 AM
  */
 
-echo 'test';
