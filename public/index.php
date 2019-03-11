@@ -13,6 +13,16 @@ class main  {
     static public function start($filename) {
 
         $records = csv::getRecords($filename);
+
+        $table = html::generateTable($records);
+
+    }
+}
+
+class html{
+
+    public static function generateTable($records) {
+
         foreach ($records as $record) {
             $array = $record->returnArray();
             print_r($array);
@@ -20,7 +30,6 @@ class main  {
 
     }
 }
-
 class csv {
 
     static public function getRecords($filename) {
