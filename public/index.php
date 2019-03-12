@@ -15,19 +15,33 @@ class main  {
         $records = csv::getRecords($filename);
 
         $table = html::generateTable($records);
-
     }
 }
 
-class html{
+class html {
 
     public static function generateTable($records) {
 
-        foreach ($records as $record) {
-            $array = $record->returnArray();
-            print_r($array);
-        }
+        $count = 0;
 
+        foreach ($records as $record) {
+
+            if($count == 0) {
+
+                $array = $record->returnArray();
+                $fields = array_keys($array);
+                $values = array_values($array);
+                print_r($fields);
+                print_r($values);
+
+            } else {
+                $array = $record->returnArray();
+                $values = array_values($array);
+                print_r($values);
+            }
+
+            $count++;
+        }
     }
 }
 class csv {
@@ -40,28 +54,26 @@ class csv {
 
         $count = 0;
 
-        while(! feof($file))
-        {
-
+        while(! feof($file)) {
             $record = fgetcsv($file);
             if($count == 0) {
                 $fieldNames = $record;
             } else {
                 $records[] = recordFactory::create($fieldNames, $record);
             }
+
             $count++;
         }
 
         fclose($file);
         return $records;
-
     }
 }
 
 class record {
 
-    public function __construct(Array $fieldNames = null, $values = null )
-    {
+    public function __construct(Array $fieldNames = null, $values = null ) {
+
         $record = array_combine($fieldNames, $values);
 
         foreach ($record as $property => $value) {
@@ -70,15 +82,15 @@ class record {
     }
 
     public function returnArray() {
+
         $array = (array) $this;
 
         return $array;
     }
 
-    public function createProperty($name = 'first', $value = 'keith') {
+    public function createProperty($name, $value) {
 
         $this->{$name} = $value;
-
     }
 }
 
@@ -89,6 +101,5 @@ class recordFactory {
         $record = new record($fieldNames, $values);
 
         return $record;
-
     }
 }
